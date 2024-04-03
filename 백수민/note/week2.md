@@ -2,7 +2,7 @@
 
 ### 2.1 호출 스택, 이벤트 루프
 
-- 호출 스택 (Call Stack):
+- #### 호출 스택 (Call Stack):
     - 자바스크립트 안에서 실행되는 모든 함수의 호출을 기록하고 추적하는 스택 자료구조
     - Anonymous은 가상의 전역 컨텍스트 (항상 있다고 생각하는게 좋음)
         - 파일 실행시 가장 먼저 쌓임
@@ -10,21 +10,36 @@
         - LIFO (후입선출) 구조라서 스택이라고 불림
     - 호출 스택만으론 자바스크립트의 모든 동작 (ex: 비동기 호출) 을 설명할 수 없음
         - 호출 스택 + 이벤트 루프로 설명할 수 있음
+</br>  
+
+<img src="https://raw.githubusercontent.com/suminb99/2024-1-Node.js-Study/main/%EB%B0%B1%EC%88%98%EB%AF%BC/image/week2/img1.png" width="350" height="400"/>
+
+위 코드의 실행 순서:
+
+<img src="https://raw.githubusercontent.com/suminb99/2024-1-Node.js-Study/main/%EB%B0%B1%EC%88%98%EB%AF%BC/image/week2/img2.png" width="500" height="300"/>
+
+
         
-- 이벤트 루프 (Event Loop):
+- #### 이벤트 루프 (Event Loop):
     - 이벤트 루프: 이벤트 발생(setTimeout 등) 시 호출할 콜백 함수들(위의 예제에서는 run)을 관리하고, 호출할 순서를 결정하는 역할
     - 태스크 큐: 이벤트 발생 후 호출되어야 할 콜백 함수들이 순서대로 기다리는 공간
     - 백그라운드: 타이머나 I/O 작업 콜백, 이벤트 리스너들이 대기하는 공간. 여러 작업이 동시에 실행될 수 있음
+ 
+</br>  
 
-1. anonymous & setTimeOut() 호출 스택에 쌓임
-2. setTimeOut 실행 시 콜백 run은 백그라운드로 보냄 
+<img src="https://raw.githubusercontent.com/suminb99/2024-1-Node.js-Study/main/%EB%B0%B1%EC%88%98%EB%AF%BC/image/week2/img4.png" width="370" height="250"/>
+
+<img src="https://raw.githubusercontent.com/suminb99/2024-1-Node.js-Study/main/%EB%B0%B1%EC%88%98%EB%AF%BC/image/week2/img5.png" width="400" height="300"/>
+
+1. anonymous와 setTimeOut()이 순차적으로 호출 스택에 쌓임
+2. setTimeOut 실행 시 콜백 run은 백그라운드로 보내짐
 3. 호출 스택 실행이 끝나 비워지면 이벤트 루프가 태스크 큐의 콜백을 호출 스택으로 올림
-4. run이 호출 스택에서 실행되고 비워지고 이벤트 루프는 태스크 큐에 콜백이 들어올 때까지 대기
-
-- 코드가 백그라운도로 가면 호출 스택과 백그라운가 동시에 실행됨
+4. run이 호출 스택에서 실행되고 비워지고, 이벤트 루프는 태스크 큐에 콜백이 들어올 때까지 대기
+---
+- 코드가 백그라운드로 가면 호출 스택과 백그라운드가 동시에 실행됨
 - 백그라운드 코드는 다른 스레드가 실행함
 - 호출 스택 + 백그라운드 동시에 실행 시 => 멀티 스레드
-- 노드에서 백그라운드로 보낼 수 있는 함수들을 제한함 (ex: setTimeOut(), setInterval(), 네트워크 요청 등) => 이 외의 코드는 동기적으로 돌아감
+- 노드에서 백그라운드로 보낼 수 있는 함수들을 제한함 (ex: setTimeOut(), setInterval(), 네트워크 요청 등 => 이 외의 코드는 동기적으로 돌아감)
 - 이벤트 루프에 의해서 태스크 큐에 있는 함수가 호출 스택으로 이동할 때 호출 스택은 항상 비어있어야 함
 - Promise.then/catch, process.nextTick => 우선순위가 다른 함수보다 높음 
 - 백그라운드는 자바스크립트가 아닌 c++ 또는 운영체제 쪽임
