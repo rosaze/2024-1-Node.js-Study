@@ -1,0 +1,20 @@
+//음주나이계산기 
+const age = prompt("How old are you?"); //값이 입력되기까지 js가 멈춘다. 
+console.log(typeof age); //string으로 숫자가 아니다. 
+console.log(typeof parseFloat(age)); //만약 숫자가 아닌 것을 입력했다면 NaN가 출력된다. 
+console.log(isNaN(age)); //숫자일 경우 false, 숫자가 아닐 경우 true
+// const myAge = parseInt(prompt("How old are you?"));
+
+if(isNaN(age) || age < 0){
+    console.log("please write a real positive number"); //위의 조건이 true일 경우 실행된다. 
+}else if(age < 18){
+    console.log("You are too young");
+}else if(age >= 18 && age < 50){ //두가지 값 모두가 true일 경우 실행되는 조건이다. 
+    console.log("You can drink");
+}
+else if(age === 100){
+    console.log("wow you are wise"); //else if의 순서에 따라 true가 중복되면 앞의 것이 실행되니 주의해야 한다.
+}
+else if(age > 50){ //else를 꼭 사용해야 하는 것은 아니다. 
+    console.log("You should not drink");
+}
