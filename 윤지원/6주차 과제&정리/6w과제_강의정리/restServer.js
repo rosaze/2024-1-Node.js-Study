@@ -2,20 +2,25 @@ const http = require("http");
 const fs = require("fs").promises;
 const path = require("path");
 
-const users = {}; // 데이터 저장용
+const users = {};
+
+const calculateDday = (inputDate) => {
+  const targetDate = new Date("2024-06-10");
+  const userDate = new Date(inputDate);
+  const diffTime = targetDate - userDate;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+};
 
 http
   .createServer(async (req, res) => {
-    //요청과 응답
     try {
       if (req.method === "GET") {
-        //https가 get 요청이고 url이 slash 일때
         if (req.url === "/") {
           const data = await fs.readFile(
             path.join(__dirname, "restFront.html")
           );
           res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-          //헤더 작성하기다. 개발자 도구에서 Headers에서 확인할 수 있다.
           return res.end(data);
         } else if (req.url === "/about") {
           const data = await fs.readFile(path.join(__dirname, "about.html"));
@@ -27,26 +32,21 @@ http
           });
           return res.end(JSON.stringify(users));
         }
-        // /도 /about도 /users도 아니면
         try {
           const data = await fs.readFile(path.join(__dirname, req.url));
           return res.end(data);
-        } catch (err) {
-          // 주소에 해당하는 라우트를 못 찾았다는 404 Not Found error 발생
-        }
+        } catch (err) {}
       } else if (req.method === "POST") {
         if (req.url === "/user") {
           let body = "";
-          // 요청의 body를 stream 형식으로 받음
           req.on("data", (data) => {
             body += data;
           });
-          // 요청의 body를 다 받은 후 실행됨
           return req.on("end", () => {
-            console.log("POST 본문(Body):", body);
-            const { name } = JSON.parse(body);
+            const { date } = JSON.parse(body);
             const id = Date.now();
-            users[id] = name;
+            const dday = calculateDday(date);
+            users[id] = { date, dday };
             res.writeHead(201, { "Content-Type": "text/plain; charset=utf-8" });
             res.end("등록 성공");
           });
@@ -59,8 +59,9 @@ http
             body += data;
           });
           return req.on("end", () => {
-            console.log("PUT 본문(Body):", body);
-            users[key] = JSON.parse(body).name;
+            const { date } = JSON.parse(body);
+            const dday = calculateDday(date);
+            users[key] = { date, dday };
             res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
             return res.end(JSON.stringify(users));
           });
