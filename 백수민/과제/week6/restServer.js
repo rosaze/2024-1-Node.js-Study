@@ -3,6 +3,7 @@ const fs = require('fs').promises;
 const path = require('path');
 
 const users = {}; // 데이터 저장용
+const comments = {};
 
 http.createServer(async (req, res) => {
   try {
@@ -15,13 +16,16 @@ http.createServer(async (req, res) => {
         const data = await fs.readFile(path.join(__dirname, 'about.html'));
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
         return res.end(data);
-      } else if (req.url === '/profile') {
-        const data = await fs.readFile(path.join(__dirname, 'profile.html'));
+      } else if (req.url === '/write') {
+        const data = await fs.readFile(path.join(__dirname, 'write.html'));
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
         return res.end(data);
       } else if (req.url === '/users') {
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         return res.end(JSON.stringify(users));
+      } else if (req.url === '/comments') {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify(comments));
       }
       // /도 /about도 /users도 아니면
       try {
@@ -47,6 +51,25 @@ http.createServer(async (req, res) => {
           res.end('등록 성공');
         });
       }
+
+      // comment 등록
+      if (req.url === '/comment') {
+        let body = '';
+        // 요청의 body를 stream 형식으로 받음
+        req.on('data', (data) => {
+          body += data;
+        });
+        // 요청의 body를 다 받은 후 실행됨
+        return req.on('end', () => {
+          console.log('POST 본문(Body):', body);
+          const { comment } = JSON.parse(body);
+          const id = Date.now();
+          comments[id] = comment;
+          res.writeHead(201, { 'Content-Type': 'text/plain; charset=utf-8' });
+          res.end('등록 성공');
+        });
+      }
+
     } else if (req.method === 'PUT') {
       if (req.url.startsWith('/user/')) {
         const key = req.url.split('/')[2];
@@ -61,12 +84,35 @@ http.createServer(async (req, res) => {
           return res.end(JSON.stringify(users));
         });
       }
+
+    } else if (req.method === 'PUT') {
+      if (req.url.startsWith('/comment/')) {
+        const key = req.url.split('/')[2];
+        let body = '';
+        req.on('data', (data) => {
+          body += data;
+        });
+        return req.on('end', () => {
+          console.log('PUT 본문(Body):', body);
+          comments[key] = JSON.parse(body).name;
+          res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+          return res.end(JSON.stringify(comments));
+        });
+      }
+
     } else if (req.method === 'DELETE') {
       if (req.url.startsWith('/user/')) {
         const key = req.url.split('/')[2];
         delete users[key];
         res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
         return res.end(JSON.stringify(users));
+      }
+    } else if (req.method === 'DELETE') {
+      if (req.url.startsWith('/comment/')) {
+        const key = req.url.split('/')[2];
+        delete comments[key];
+        res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+        return res.end(JSON.stringify(comments));
       }
     }
     res.writeHead(404);
