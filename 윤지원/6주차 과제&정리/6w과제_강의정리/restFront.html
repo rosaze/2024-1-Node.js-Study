@@ -10,13 +10,16 @@
       <a href="/">Home</a>
       <a href="/about">About</a>
     </nav>
-    <div>
+    <div id="content">
+      <div id="header-box">
+        <h1 id="header-text">행복한 자료구조 시간</h1>
+      </div>
       <form id="form">
-        <input type="text" id="username" />
-        <button type="submit">등록</button>
+        <input type="date" id="date" class="large-input" />
+        <button type="submit" class="large-button">등록</button>
       </form>
+      <div id="list"></div>
     </div>
-    <div id="list"></div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./restFront.js"></script>
   </body>

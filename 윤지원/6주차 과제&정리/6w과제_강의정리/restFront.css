@@ -1,0 +1,70 @@
+body {
+    background-color: pink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+#content {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#header-box {
+    background-color: green;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#header-text {
+    color: red;
+    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+    font-size: 36px;
+    margin: 0;
+}
+
+.large-input {
+    width: 300px;
+    height: 40px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.large-button {
+    width: 150px;
+    height: 45px;
+    font-size: 18px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.large-button:hover {
+    background-color: #0056b3;
+}
+
+#list div {
+    margin-top: 10px;
+}
+
+button {
+    margin-left: 10px;
+}
