@@ -13,7 +13,7 @@ package-lock.json : 버전 문제를 막아주는 파일
   npm i express
   npm i cookie parser body parser
   위 입력을 마치면 node_modules 가 생김.
-- node_modules: 용량이 많으므로 배포할 때는 삭제하고, 다시 npm i를 쳐서 설치함
+- node_modules: 용량이 많으므로 배포할 때는 삭제하고, 다시 npm i를 쳐서 설치함 ( 깃에 올릴때 gitignore 로 지운 다음에 다시 소스코드에서 npm i)
 
 # 명령어 :npm i -g rimraf-->
 
