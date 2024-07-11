@@ -1,0 +1,60 @@
+*{
+    margin:0;
+    padding: 0;
+}
+
+h1{
+    display: block;
+    width: 250px;
+    margin: 10px auto;
+}
+#inputs{
+    width: fit-content;
+    margin: 0px auto;
+}
+form div p{
+    display: inline-block;
+}
+form div input{
+    margin-right: 100px;
+}
+#businessCards{
+    width: fit-content;
+    position: flex;
+    flex-direction: row;
+    margin: 0 auto;
+}
+.card{
+    display:inline-block;
+    width: 300px;
+    height: 150px;
+    background-image: url('./cardbgdesign.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-left: 100px;
+    margin-top: 50px;
+
+}
+.nameRes{
+    display:block;
+    margin-left: 2vw;
+    padding-top: 75px;
+}
+.businessRes{
+    display: inline-block;
+    margin-left: 2vw;
+    margin-top: 4vh;
+    font-size: 10px;
+    color: grey;
+}
+.positionRes{
+    display: inline-block;
+    font-size: 10px;
+    color: grey;
+}
+.buttonRes{
+    float: right;
+    margin-right: 1vw;
+    margin-top: 4vh;
+    cursor:pointer;
+}
