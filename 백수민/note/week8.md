@@ -20,13 +20,15 @@
 
 ```JavaScript
 
-app.set('port', process.env.PORT || 8080); // 전역 변수의 느낌; 서버에 속성을 심는다; port == 8080
+app.set('port', process.env.PORT || 3000); // 전역 변수의 느낌; 서버에 속성을 심는다; port == 8080
 
 app.listen(app.get('port'), () => {
     console.log('익스프레스 서버 실행')
 });
 
 ```
+
+<img src="https://raw.githubusercontent.com/suminb99/2024-1-Node.js-Study/main/%EB%B0%B1%EC%88%98%EB%AF%BC/image/week8/img1.png" width="400" height="400"/>
 
 ---
 
@@ -80,6 +82,7 @@ app. use(morgan('dev')); // client에서 어떤 요청이 왔는지 서버에 �
 app.use(morgan('combined')); // 더 자세한 정보가 뜬다 (베포할 때 사용)
 
 ```
+<img src="https://raw.githubusercontent.com/suminb99/2024-1-Node.js-Study/main/%EB%B0%B1%EC%88%98%EB%AF%BC/image/week8/img2.png" width="500" height="200"/>
 
 **cookieParser**
 
@@ -125,7 +128,7 @@ app.get('/', (req, res, next) => {
 ```
 
 ---
-### 5 ~ 6. static 미들웨어 & express-session 미들웨어
+### 5-6. static 미들웨어 & express-session 미들웨어
 
 **static**
 
